@@ -1,0 +1,72 @@
+%% -*- mode:html -*-
+
+@author Fred Youhanaie <fyrlang@anydata.co.uk>
+@copyright 2024 Fred Youhanaie
+@version 0.1.0
+
+@doc
+
+<h3>Introduction</h3>
+
+<p>`gen_xml' is an Erlang bahaviour module for processing eXtensible
+  Markup Language (XML) files.
+</p>
+
+<h3>Module Overview</h3>
+
+<p>To start the process of parsing the XML file, an application should
+  call the `read/3' function. While `read/3' is scanning the XML file
+  it will call the appropriate handler functions in the supplied
+  callback module.
+</p>
+
+<h4>The Callback Module</h4>
+
+<p>The callback module should export three functions for processing
+  the individual XML elements:
+</p>
+
+<ul>
+  <li>`handle_begin(Tag, Attr, State)', is called whenever a new tag
+    is encountered. It takes three arguments: `Tag' is an `atom'
+    corresponding to the element tag, `Attrs' is the list of
+    attributes from the `startElement' event, see `xmerl_sax_parser'
+    for further details. If required, the attributes can be converted
+    to a map of attribute name/value pairs using the
+    `gen_xml:attr_map/1' function.
+
+    The third parameter, `State', is explained below.
+  </li>
+
+  <li>`handle_end(Tag, State)' corresponds to the `endElement' event,
+    which signals the `</Tag>' element. It can be used to finish off
+    any outstanding work for this element.
+  </li>
+
+  <li>`handle_text(Text, State)' corresponds to the `characters'
+    event, which is the text within an element.
+  </li>
+</ul>
+
+<p>Associated with each callback module is a state variable maintained
+  by the `gen_xml:read/3' function, and is initialized to the value
+  that is supplied to it during the call. The current contents of the
+  state variable is passed to the handler functions, which should
+  return it, optionally updated, for the future calls to the handlers.
+</p>
+
+<p>The structure of the state variable is entirely dependent on the
+  callback module, for example the `genxml_counter' module will
+  maintain a map where the keys are the XML element tags and the
+  values are the cumulative counts of the corresponding tags.
+</p>
+
+<p>Once `read/3' has concluded processing the file, the final contents of the
+  state variable is returned to the caller.
+</p>
+
+<p>A number of sample callback modules have been provided in the `Examples/'
+  directory of the git repo.
+</p>
+
+@end
