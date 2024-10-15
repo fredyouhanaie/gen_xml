@@ -40,3 +40,32 @@ read_sample_1_test_() ->
      ]}.
 
 %%--------------------------------------------------------------------
+
+-define(Attr_1_list, [{[], [], "name", "name_1"}]).
+-define(Attr_1_map, #{name => "name_1"}).
+
+-define(Attr_2_list, [{[],[],"address","address_1"},
+                      {[],[],"name","name_1"}]).
+-define(Attr_2_map, #{address => "address_1",
+                      name => "name_1"}).
+
+-define(Attr_3_list, [{[],[],"name","name_1"},
+                      {[],[],"address","address_1"},
+                      {[],[],"age","21"}]).
+-define(Attr_3_map, #{name => "name_1",
+                      address => "address_1",
+                      age => "21"}).
+
+map_attr_1_test_() ->
+    {setup, fun setup/0, fun cleanup/1,
+     [{"empty list",
+       ?_assertEqual(#{}, gen_xml:attr_map([]))},
+      {"list with 1 attribute",
+       ?_assertEqual(?Attr_1_map, gen_xml:attr_map(?Attr_1_list))},
+      {"list with 2 attributes",
+       ?_assertEqual(?Attr_2_map, gen_xml:attr_map(?Attr_2_list))},
+      {"list with 3 attributes",
+       ?_assertEqual(?Attr_3_map, gen_xml:attr_map(?Attr_3_list))}
+     ]}.
+
+%%--------------------------------------------------------------------
