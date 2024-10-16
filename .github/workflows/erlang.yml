@@ -3,9 +3,9 @@ name: Erlang CI
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: [master]
+    branches: [trunk]
   pull_request:
-    branches: [master]
+    branches: [trunk]
 
 permissions:
   contents: read
