@@ -43,7 +43,9 @@
 
 %%--------------------------------------------------------------------
 
--type read_ret() :: {ok, State :: term()} | {error, Reason :: term()}.
+-type read_ret() :: {fatal_error, term(), term(), term(), term()}
+                  | {ok, State :: term()}
+                  | {error, Reason :: term()}.
 -export_type([read_ret/0]).
 
 %%--------------------------------------------------------------------
