@@ -18,4 +18,5 @@ erl_crash.dump
 exdoc/
 log
 logs
+overview.html
 rebar3.crashdump
