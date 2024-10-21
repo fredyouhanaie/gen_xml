@@ -1,5 +1,12 @@
 # `gen_xml` examples
 
+`genxml` is an escript that enables running the known callback modules
+from the command line.
+
+Currently, only the `null` and the `counts` modules are supported.
+
+---
+
 ## The `counts` callback module
 
 The `genxml_counts` module is used for testing and benchmarking.
