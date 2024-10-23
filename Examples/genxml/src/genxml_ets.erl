@@ -58,15 +58,19 @@
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec read(file:filename()) -> ets:table().
+-spec read(file:filename()) -> {ok, ets:table()}.
 read(File) ->
     Tab_id = ets:new(?MODULE, [ordered_set]),
     Id  = 0,
     Tag = '$root',
     Rec = {Id, Tag, #{}, Id, []},
     ets:insert(Tab_id, Rec), %% add dummy root entry
-    gen_xml:read(File, ?MODULE, #handler{tabid=Tab_id, path=[{Id, Tag}]}),
-    Tab_id.
+
+    %% we expect the same handler state before and after the scan
+    State = #handler{tabid=Tab_id, path=[{Id, Tag}]},
+    {ok, State} = gen_xml:read(File, ?MODULE, State),
+
+    {ok, Tab_id}.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for begin tags.
