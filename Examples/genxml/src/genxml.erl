@@ -61,7 +61,9 @@ main(Args) ->
         #{ "null"    => #{ help => "run the null callback module",
                            handler => fun do_null/1 },
            "counts"  => #{ help => "run the counts callback module",
-                           handler => fun do_counts/1 }
+                           handler => fun do_counts/1 },
+           "ets"     => #{ help => "run the ets callback module",
+                           handler => fun do_ets/1 }
          } ).
 
 cli() ->
@@ -109,6 +111,19 @@ do_counts(Args) ->
 
     Print = fun (Tag, Count) -> io:format("~8w,~s~n", [Count, Tag]) end,
     maps:foreach(Print, Counts),
+
+    ok.
+
+%%--------------------------------------------------------------------
+
+do_ets(Args) ->
+
+    File = map_get(file, Args),
+    Result = genxml_ets:read(File),
+    {ok, Tab_id} = Result,
+
+    Data = ets:tab2list(Tab_id),
+    io:format("~p~n", [Data]),
 
     ok.
 
