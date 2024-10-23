@@ -106,9 +106,10 @@ do_counts(Args) ->
     File = map_get(file, Args),
     Result = genxml_counts:start(File),
     {ok, Counts} = Result,
-    
-    Print = fun (Tag, Count) -> io:format("~p\t~p~n", [Tag, Count]) end,
+
+    Print = fun (Tag, Count) -> io:format("~8w,~s~n", [Count, Tag]) end,
     maps:foreach(Print, Counts),
+
     ok.
 
 %%--------------------------------------------------------------------
