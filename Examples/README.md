@@ -24,6 +24,13 @@ The callback module can be run manually against a file `File` with:
 
 ---
 
+## The `ets` callback module
+
+This module reads an XML document and saves its contents into a newly
+created ETS table.
+
+---
+
 ## The test files
 
 The three sample files were downloaded from the
