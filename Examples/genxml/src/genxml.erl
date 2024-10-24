@@ -63,7 +63,9 @@ main(Args) ->
            "counts"  => #{ help => "run the counts callback module",
                            handler => fun do_counts/1 },
            "ets"     => #{ help => "run the ets callback module",
-                           handler => fun do_ets/1 }
+                           handler => fun do_ets/1 },
+           "paths"   => #{ help => "run the paths callback module",
+                           handler => fun do_paths/1 }
          } ).
 
 cli() ->
@@ -126,5 +128,11 @@ do_ets(Args) ->
     io:format("~p~n", [Data]),
 
     ok.
+
+%%--------------------------------------------------------------------
+
+do_paths(Args) ->
+    File = map_get(file, Args),
+    genxml_paths:print(File).
 
 %%--------------------------------------------------------------------
