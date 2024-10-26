@@ -3,10 +3,10 @@
 %%% @copyright 2024, Fred Youhanaie
 %%% @doc
 %%%
-%%% The get_xml `null' callback module
+%%% The gen_xml `null' callback module
 %%%
 %%% As the name implies, no processing is performed on the XML
-%%% elements. This callback module is purely for testing and
+%%% elements. This callback module is provided for testing and
 %%% performance benchmarking.
 %%%
 %%% @end
@@ -21,31 +21,46 @@
 -export([handle_begin/3, handle_end/2, handle_text/2]).
 
 %%--------------------------------------------------------------------
-
+%% @doc Start the processing of an XML file.
+%%
+%% @end
+%%--------------------------------------------------------------------
+-spec start(file:filename()) -> {ok, null}.
 start(File) ->
     gen_xml:read(File, ?MODULE, null).
 
 %%--------------------------------------------------------------------
-%% @doc The null callbacks. These do nothing, they just behaves as a
-%% "compliant callback handler".
+%% @doc The null callbacks.
 %%
-%% This can be used for testing or benchmarking purposes.
+%% The function does nothing, it just behaves as a "compliant callback
+%% handler".
 %%
 %% @end
 %%--------------------------------------------------------------------
-
 -spec handle_begin(atom(), term(), term()) -> term().
 handle_begin(_Tag, _Attr, State) ->
     State.
 
 %%--------------------------------------------------------------------
-
+%% @doc The null callbacks.
+%%
+%% The function does nothing, it just behaves as a "compliant callback
+%% handler".
+%%
+%% @end
+%%--------------------------------------------------------------------
 -spec handle_end(atom(), term()) -> term().
 handle_end(_Tag, State) ->
     State.
 
 %%--------------------------------------------------------------------
-
+%% @doc The null callbacks.
+%%
+%% The function does nothing, it just behaves as a "compliant callback
+%% handler".
+%%
+%% @end
+%%--------------------------------------------------------------------
 -spec handle_text(string(), term()) -> term().
 handle_text(_Text, State) ->
     State.
