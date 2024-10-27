@@ -1,1 +1,8 @@
-[].
+{"1.2.0",
+[{<<"gen_xml">>,{pkg,<<"gen_xml">>,<<"0.1.0">>},0}]}.
+[
+{pkg_hash,[
+ {<<"gen_xml">>, <<"0EABD8E21F4DF2F7C1181C29F0C3FADFA8803B720226EF30F0ADE0F88634A4E2">>}]},
+{pkg_hash_ext,[
+ {<<"gen_xml">>, <<"13C64A2B75393E16C11D6BCCA99880093FDC3654C869B010E5D1699CE3BC5EBE">>}]}
+].
