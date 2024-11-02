@@ -15,6 +15,10 @@
 -define(Doc_nofile, "test/no_file.xml").   %% this file should never exist!
 -define(Doc_empty,  "test/empty_doc.xml"). %% keep this file empty
 
+-define(Doc_sample_4, "test/sample-xml-files-sample-4.xml").
+-define(Doc_sample_5, "test/sample-xml-files-sample-5.xml").
+-define(Doc_sample_6, "test/sample-xml-files-sample-6.xml").
+
 %% Change `Log_level' if investigating failed tests
 -define(Log_level, critical).
 
@@ -37,6 +41,18 @@ read_sample_1_test_() ->
        ?_assertMatch({error, _Reason}, gen_xml:read(?Doc_nofile, genxml_null, null))},
       {"empty file",
        ?_assertMatch({fatal_error, _, _, _, _}, gen_xml:read(?Doc_empty, genxml_null, null))}
+     ]}.
+
+%%--------------------------------------------------------------------
+
+read_sample_2_test_() ->
+    {setup, fun setup/0, fun cleanup/1,
+     [ {"sample-4",
+        ?_assertEqual({ok, null}, gen_xml:read(?Doc_sample_4, genxml_null, null))},
+       {"sample-5",
+        ?_assertEqual({ok, null}, gen_xml:read(?Doc_sample_5, genxml_null, null))},
+       {"sample-6",
+        ?_assertEqual({ok, null}, gen_xml:read(?Doc_sample_6, genxml_null, null))}
      ]}.
 
 %%--------------------------------------------------------------------
