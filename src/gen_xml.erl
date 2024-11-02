@@ -72,20 +72,40 @@
 read(Filename, CB_module, CB_state) ->
     ?LOG_INFO("read: scan started File=~p.", [Filename]),
 
-    Scan_opts = [{event_fun, fun event_cb/3},
-                 {event_state, #state{cb_module=CB_module,
-                                      cb_state=CB_state}}
+    Modes = [raw, read_ahead, read, binary],
+    Result = case file:open(Filename, Modes)  of
+                 {error, Reason} ->
+                     {error,{Filename, file:format_error(Reason)}};
+                 {ok, IO_dev} ->
+                     Res = scan(IO_dev, CB_module, CB_state),
+                     file:close(IO_dev),
+                     Res
+             end,
+
+    %% collect the statistics and return the results
+    ?LOG_INFO("read: Result=~p.", [Result]),
+    Result.
+
+%%--------------------------------------------------------------------
+%% @doc Scan and process an XML io stream.
+%%
+%% @end
+%%--------------------------------------------------------------------
+-spec scan(file:io_device(), atom(), term()) -> read_ret().
+scan(IO_dev, CB_module, CB_state) ->
+    Scan_opts = [ {event_fun, fun event_cb/3},
+                  {event_state, #state{cb_module=CB_module,
+                                       cb_state=CB_state}},
+                  {continuation_fun, fun continuation_cb/1},
+                  {continuation_state, IO_dev}
                 ],
 
-    Result = case xmerl_sax_parser:file(Filename, Scan_opts) of
-                 {ok, State, _Rest} ->
-                     {ok, State#state.cb_state};
-                 Other_result ->
-                     Other_result
-             end,
-    %% collect the statistics and return the results
-    ?LOG_INFO("read: Result=~p).", [Result]),
-    Result.
+    case xmerl_sax_parser:stream(<<>>, Scan_opts) of
+        {ok, State, _Rest} ->
+            {ok, State#state.cb_state};
+        Other_result ->
+            Other_result
+    end.
 
 %%--------------------------------------------------------------------
 %% @doc The event handler for the SAX parser.
@@ -153,5 +173,19 @@ attr_map(Attr) ->
     Attr_to_pair = fun ({_, _, Name, Val}) -> {list_to_atom(Name), Val} end,
     Attr_list = lists:map(Attr_to_pair, Attr),
     maps:from_list(Attr_list).
+
+%%--------------------------------------------------------------------
+%% @doc Continuation function required by `xmerl_sax_parser:stream/2'.
+%%
+%% @end
+%%--------------------------------------------------------------------
+-spec continuation_cb(file:io_device()) -> {binary(), file:io_device()}.
+continuation_cb(IO_dev) ->
+    case file:read(IO_dev, 1024) of
+        eof ->
+            {<<>>, IO_dev};
+        {ok, FileBin} ->
+            {FileBin, IO_dev}
+    end.
 
 %%--------------------------------------------------------------------
