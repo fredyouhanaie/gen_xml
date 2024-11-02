@@ -72,7 +72,7 @@
 read(Filename, CB_module, CB_state) ->
     ?LOG_INFO("read: scan started File=~p.", [Filename]),
 
-    Modes = [raw, read_ahead, read, binary],
+    Modes = [raw, read_ahead, read, binary, compressed],
     Result = case file:open(Filename, Modes)  of
                  {error, Reason} ->
                      {error,{Filename, file:format_error(Reason)}};
