@@ -2,13 +2,13 @@
 
 @author Fred Youhanaie <fyrlang@anydata.co.uk>
 @copyright 2024 Fred Youhanaie
-@version 0.1.0
+@version 0.2.0
 
 @doc
 
 <h3>Introduction</h3>
 
-<p>`gen_xml' is an Erlang bahaviour module for processing eXtensible
+<p>`gen_xml' is an Erlang behaviour module for processing eXtensible
   Markup Language (XML) files.
 </p>
 
@@ -18,6 +18,10 @@
   call the `read/3' function. While `read/3' is scanning the XML file
   it will call the appropriate handler functions in the supplied
   callback module.
+</p>
+
+<p>
+  `read/3' can process plain and compressed files.
 </p>
 
 <h4>The Callback Module</h4>
@@ -50,9 +54,9 @@
 
 <p>Associated with each callback module is a state variable maintained
   by the `gen_xml:read/3' function, and is initialized to the value
-  that is supplied to it during the call. The current contents of the
-  state variable is passed to the handler functions, which should
-  return it, optionally updated, for the future calls to the handlers.
+  supplied to it during the call. The current contents of the state
+  variable is passed to the handler functions, which should return it,
+  optionally updated, for the future calls to the handlers.
 </p>
 
 <p>The structure of the state variable is entirely dependent on the

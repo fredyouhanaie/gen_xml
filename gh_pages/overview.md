@@ -5,7 +5,7 @@ Copyright 2024 Fred Youhanaie
 
 # Introduction
 
-`gen_xml` is an Erlang bahaviour module for processing eXtensible
+`gen_xml` is an Erlang behaviour module for processing eXtensible
 Markup Language (XML) files.
 
 ## Module Overview
@@ -14,6 +14,8 @@ To start the process of parsing the XML file, an application should
 call the `read/3` function. While `read/3` is scanning the XML file it
 will call the appropriate handler functions in the supplied callback
 module.
+
+`read/3` can process plain and compressed files.
 
 ### The Callback Module
 
@@ -37,7 +39,7 @@ individual XML elements:
   which is the text within an element.
 
 Associated with each callback module is a state variable maintained by
-the `gen_xml:read/3` function, and is initialized to the value that is
+the `gen_xml:read/3` function, and is initialized to the value
 supplied to it during the call. The current contents of the state
 variable is passed to the handler functions, which should return it,
 optionally updated, for the future calls to the handlers.
@@ -49,7 +51,6 @@ cumulative counts of the corresponding tags.
 
 Once `read/3` has concluded processing the file, the final contents of
 the state variable is returned to the caller.
-
 
 A number of sample callback modules have been provided in the
 `Examples/` directory of the git repo.
