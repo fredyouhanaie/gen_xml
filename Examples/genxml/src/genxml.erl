@@ -30,15 +30,7 @@ main(Args) ->
     logger:set_primary_config(level, error),
 
     %% scan the args and run
-    %% argparse:run(Args, cli(), #{progname => genxml}),
-
-    Parsed = argparse:parse(Args, cli(), #{progname => genxml}),
-    case Parsed of
-        {error, Error} ->
-            ?LOG_ERROR(argparse:format_error(Error));
-        {ok, Arg_map, Path, Command} ->
-            run(Arg_map, Path, Command)
-    end,
+    argparse:run(Args, cli(), #{progname => genxml}),
 
     timer:sleep(100), %% give the logger a chance to flush all the messages!!
     ok.
@@ -72,27 +64,6 @@ cli() ->
     #{ arguments => ?Arguments,
        commands  => ?Commands
      }.
-
-%%--------------------------------------------------------------------
-%% run a subcommand
-%%
-run(Arg_map, Path, Command) ->
-    %% check/set the verbosity
-    Level = case maps:get(verbose, Arg_map, 0) of
-                0 -> error;
-                1 -> warning;
-                2 -> notice;
-                3 -> info;
-                _ -> debug
-            end,
-    logger:set_primary_config(level, Level),
-    ?LOG_DEBUG(#{ arg_map => Arg_map,
-                  path    => lists:join($/, Path),
-                  command => Command }),
-
-    erlang:apply(map_get(handler, Command), [Arg_map]),
-
-    ok.
 
 %%--------------------------------------------------------------------
 
