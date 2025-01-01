@@ -68,6 +68,7 @@ cli() ->
 %%--------------------------------------------------------------------
 
 do_null(Args) ->
+    check_verbosity(Args),
 
     File = map_get(file, Args),
     Result = genxml_null:start(File),
@@ -77,6 +78,7 @@ do_null(Args) ->
 %%--------------------------------------------------------------------
 
 do_counts(Args) ->
+    check_verbosity(Args),
 
     File = map_get(file, Args),
     Result = genxml_counts:start(File),
@@ -90,6 +92,7 @@ do_counts(Args) ->
 %%--------------------------------------------------------------------
 
 do_ets(Args) ->
+    check_verbosity(Args),
 
     File = map_get(file, Args),
     Result = genxml_ets:read(File),
@@ -103,7 +106,23 @@ do_ets(Args) ->
 %%--------------------------------------------------------------------
 
 do_paths(Args) ->
+    check_verbosity(Args),
+
     File = map_get(file, Args),
     genxml_paths:print(File).
+
+%%--------------------------------------------------------------------
+
+check_verbosity(Args) ->
+    %% check/set the verbosity
+    Level = case maps:get(verbose, Args, 0) of
+                0 -> error;
+                1 -> warning;
+                2 -> notice;
+                3 -> info;
+                _ -> debug
+            end,
+    logger:set_primary_config(level, Level),
+    ?LOG_DEBUG(#{ arg_map => Args }).
 
 %%--------------------------------------------------------------------
