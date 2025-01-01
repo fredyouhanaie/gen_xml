@@ -1,5 +1,5 @@
 {application, genxml,
- [{description, "An OTP library"},
+ [{description, "Some example gen_xml callback modules"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,

@@ -8,23 +8,6 @@ the three example modules in this subtree.
 
 ---
 
-## The `counts` callback module
-
-The `genxml_counts` module is used for testing and benchmarking.
-
-It can also be used as a template for new callback modules.
-
-The module will return the count of the element tags found in the XML
-document.
-
-The callback module can be run manually against a file `File` with:
-
-    $ cd genxml
-    $ rebar3 shell
-    > genxml_counts:start(File).
-
----
-
 ## The `ets` callback module
 
 This module reads an XML document and saves its contents into a newly
