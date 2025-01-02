@@ -14,9 +14,18 @@
 %% API exports
 -export([main/1]).
 
+%% subcommand handlers
+-export([ do_counts/1,
+          do_ets/1,
+          do_paths/1,
+          do_null/1
+        ]).
+
 %%--------------------------------------------------------------------
 
 -include_lib("kernel/include/logger.hrl").
+
+-include_lib("include/genxml_cli.hrl").
 
 %%====================================================================
 %% API functions
@@ -38,27 +47,6 @@ main(Args) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-
--define(Arguments,
-        [ #{ name => verbose, long => "-verbose", short => $v,
-             type => boolean, action => count,
-             help => "be verbose, can use multiple times for warning to debug" },
-          #{ name => help, long => "-help", short => $h,
-             type => boolean,
-             help => "display help/usage information" },
-          #{ name => file, nargs => 1 }
-        ] ).
-
--define(Commands,
-        #{ "null"    => #{ help => "run the null callback module",
-                           handler => fun do_null/1 },
-           "counts"  => #{ help => "run the counts callback module",
-                           handler => fun do_counts/1 },
-           "ets"     => #{ help => "run the ets callback module",
-                           handler => fun do_ets/1 },
-           "paths"   => #{ help => "run the paths callback module",
-                           handler => fun do_paths/1 }
-         } ).
 
 cli() ->
     #{ arguments => ?Arguments,
