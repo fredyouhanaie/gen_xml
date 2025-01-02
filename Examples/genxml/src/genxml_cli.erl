@@ -3,13 +3,13 @@
 %%% @copyright 2024, Fred Youhanaie
 %%% @doc
 %%%
-%%% `genxml' is a command line script for experimenting with the
+%%% `genxml_cli' is a command line script for experimenting with the
 %%% various example callback modules.
 %%%
 %%% @end
 %%% Created : 2024-10-13 by Fred Youhanaie <fyrlang@anydata.co.uk>
 %%%-------------------------------------------------------------------
--module(genxml).
+-module(genxml_cli).
 
 %% API exports
 -export([main/1]).
