@@ -1,13 +1,12 @@
 
--define(Arguments,
+-define(Arguments_genxml,
         [ #{ name => verbose, long => "-verbose", short => $v,
              type => boolean, action => count,
              help => "be verbose, can use multiple times for warning to debug" },
-             help => "display help/usage information" },
           #{ name => file, nargs => 1 }
         ] ).
 
--define(Commands,
+-define(Commands_genxml,
         #{ "null"    => #{ help => "run the null callback module",
                            handler => fun genxml_cli:do_null/1 },
            "counts"  => #{ help => "run the counts callback module",

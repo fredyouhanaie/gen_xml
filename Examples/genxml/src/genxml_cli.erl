@@ -49,8 +49,8 @@ main(Args) ->
 %%====================================================================
 
 cli() ->
-    #{ arguments => ?Arguments,
-       commands  => ?Commands
+    #{ arguments => ?Arguments_genxml,
+       commands  => ?Commands_genxml
      }.
 
 %%--------------------------------------------------------------------
