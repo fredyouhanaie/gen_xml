@@ -40,7 +40,8 @@ main(Args) ->
     logger:set_primary_config(level, error),
 
     %% scan the args and run
-    argparse:run(Args, cli(), ?Progname),
+    Run_result = argparse:run(Args, cli(), ?Progname),
+    ?LOG_NOTICE("Run result=~p.~n", [Run_result]),
 
     timer:sleep(100), %% give the logger a chance to flush all the messages!!
     ok.
@@ -60,9 +61,14 @@ do_null(Args) ->
     check_verbosity(Args),
 
     File = map_get(file, Args),
-    Result = genxml_null:start(File),
-    io:format("~p.~n", [Result]),
-    ok.
+    case genxml_null:start(File) of
+        {ok, State} ->
+            io:format("~p.~n", [State]),
+            ok;
+        Error ->
+            ?LOG_ERROR("~p.", [Error]),
+            error
+    end.
 
 %%--------------------------------------------------------------------
 
@@ -70,13 +76,15 @@ do_counts(Args) ->
     check_verbosity(Args),
 
     File = map_get(file, Args),
-    Result = genxml_counts:start(File),
-    {ok, Counts} = Result,
-
-    Print = fun (Tag, Count) -> io:format("~8w,~s~n", [Count, Tag]) end,
-    maps:foreach(Print, Counts),
-
-    ok.
+    case genxml_counts:start(File) of
+        {ok, Counts} ->
+            Print = fun (Tag, Count) -> io:format("~8w,~s~n", [Count, Tag]) end,
+            maps:foreach(Print, Counts),
+            ok;
+        Error ->
+            ?LOG_ERROR("~p.", [Error]),
+            error
+    end.
 
 %%--------------------------------------------------------------------
 
@@ -84,7 +92,13 @@ do_paths(Args) ->
     check_verbosity(Args),
 
     File = map_get(file, Args),
-    genxml_paths:print(File).
+    case genxml_paths:print(File) of
+        {ok, []} ->
+            ok;
+        Error ->
+            ?LOG_ERROR("~p.", [Error]),
+            error
+    end.
 
 %%--------------------------------------------------------------------
 

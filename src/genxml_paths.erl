@@ -26,10 +26,9 @@
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec print(file:filename()) -> ok.
+-spec print(file:filename()) -> gen_xml:read_ret().
 print(File) ->
-    {ok, []} = gen_xml:read(File, ?MODULE, []),
-    ok.
+    gen_xml:read(File, ?MODULE, []).
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for begin tags.

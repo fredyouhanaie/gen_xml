@@ -25,7 +25,7 @@
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec start(file:filename()) -> {ok, null}.
+-spec start(file:filename()) -> gen_xml:read_ret().
 start(File) ->
     gen_xml:read(File, ?MODULE, null).
 
