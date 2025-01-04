@@ -24,7 +24,7 @@
 
 -include_lib("kernel/include/logger.hrl").
 
--include_lib("include/gen_xml_cli.hrl").
+-include_lib("gen_xml_cli.hrl").
 
 -define(Progname, #{progname => gen_xml}).
 
