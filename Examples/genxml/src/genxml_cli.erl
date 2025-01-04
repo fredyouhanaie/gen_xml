@@ -15,11 +15,7 @@
 -export([main/1]).
 
 %% subcommand handlers
--export([ do_counts/1,
-          do_ets/1,
-          do_paths/1,
-          do_null/1
-        ]).
+-export([ do_ets/1 ]).
 
 %%--------------------------------------------------------------------
 
@@ -55,30 +51,6 @@ cli() ->
 
 %%--------------------------------------------------------------------
 
-do_null(Args) ->
-    check_verbosity(Args),
-
-    File = map_get(file, Args),
-    Result = genxml_null:start(File),
-    io:format("~p.~n", [Result]),
-    ok.
-
-%%--------------------------------------------------------------------
-
-do_counts(Args) ->
-    check_verbosity(Args),
-
-    File = map_get(file, Args),
-    Result = genxml_counts:start(File),
-    {ok, Counts} = Result,
-
-    Print = fun (Tag, Count) -> io:format("~8w,~s~n", [Count, Tag]) end,
-    maps:foreach(Print, Counts),
-
-    ok.
-
-%%--------------------------------------------------------------------
-
 do_ets(Args) ->
     check_verbosity(Args),
 
@@ -93,14 +65,6 @@ do_ets(Args) ->
 
 %%--------------------------------------------------------------------
 
-do_paths(Args) ->
-    check_verbosity(Args),
-
-    File = map_get(file, Args),
-    genxml_paths:print(File).
-
-%%--------------------------------------------------------------------
-
 check_verbosity(Args) ->
     %% check/set the verbosity
     Level = case maps:get(verbose, Args, 0) of
@@ -111,6 +75,6 @@ check_verbosity(Args) ->
                 _ -> debug
             end,
     logger:set_primary_config(level, Level),
-    ?LOG_DEBUG(#{ arg_map => Args }).
+    ?LOG_NOTICE(#{ arg_map => Args }).
 
 %%--------------------------------------------------------------------
