@@ -1,8 +1,8 @@
 {"1.2.0",
-[{<<"gen_xml">>,{pkg,<<"gen_xml">>,<<"0.2.0">>},0}]}.
+[{<<"gen_xml">>,{pkg,<<"gen_xml">>,<<"0.3.0">>},0}]}.
 [
 {pkg_hash,[
- {<<"gen_xml">>, <<"994BB9C632635B30409A46ED1E3EA310FFCF235F795031C06C8D062A0B5B1D70">>}]},
+ {<<"gen_xml">>, <<"F889F6A25B469F8AA119B311DECF9A6EC466CAA4F082C19CDECD72B6A90031F1">>}]},
 {pkg_hash_ext,[
- {<<"gen_xml">>, <<"586A7AFF0D810F54FF11A3795C31128E4FA06CC343E79839346C78F97D125C07">>}]}
+ {<<"gen_xml">>, <<"C7DA06457B8A8B86F1D4E8F17E5E1B851D7A136D377758670E3DB319FA1DC406">>}]}
 ].
