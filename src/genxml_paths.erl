@@ -22,13 +22,19 @@
 -export([handle_begin/3, handle_end/2, handle_text/2]).
 
 %%--------------------------------------------------------------------
-%% @doc Helper function to scan an entire XML document.
+%% @doc Helper function to scan and print the paths of an XML document.
 %%
 %% @end
 %%--------------------------------------------------------------------
 -spec print(file:filename()) -> gen_xml:read_ret().
 print(File) ->
-    gen_xml:read(File, ?MODULE, []).
+    Print = fun (Path) -> io:format("~s~n", [Path]) end,
+    case gen_xml:read(File, ?MODULE, {Print, []}) of
+        {ok, {Print, []}} ->
+            {ok, []}; %% no need to return the function
+        Error ->
+            Error
+    end.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for begin tags.
@@ -39,13 +45,13 @@ print(File) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_begin(atom(), list(), list()) -> list().
-handle_begin(Tag, _Attr, Tags) ->
+-spec handle_begin(atom(), list(), {function(), list()}) -> {function(), list()}.
+handle_begin(Tag, _Attr, {F, Tags}) ->
     Tags_new = [Tag|Tags],
     Tags_str = [ atom_to_list(A) || A <- lists:reverse(Tags_new) ],
     Path = string:join(Tags_str, "/"),
-    io:format("~s~n", [Path]),
-    Tags_new.
+    F(Path),
+    {F, Tags_new}.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for end tags.
@@ -54,9 +60,9 @@ handle_begin(Tag, _Attr, Tags) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_end(atom(), list()) -> list().
-handle_end(Tag, [Tag|Tags]) ->
-    Tags.
+-spec handle_end(atom(), {function(), list()}) -> {function(), list()}.
+handle_end(Tag, {F, [Tag|Tags_rest]}) ->
+    {F, Tags_rest}.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for text elements.
@@ -65,8 +71,8 @@ handle_end(Tag, [Tag|Tags]) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_text(string(), list()) -> list().
-handle_text(_Text, Tags) ->
-    Tags.
+-spec handle_text(string(), {function(), list()}) -> {function(), list()}.
+handle_text(_Text, State) ->
+    State.
 
 %%--------------------------------------------------------------------

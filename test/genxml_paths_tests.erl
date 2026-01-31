@@ -20,7 +20,9 @@
 %%--------------------------------------------------------------------
 
 %% genxml_paths expects an empty map for intial state
--define(Init_state, []).
+-define(Path_fun, fun (_Path) -> ok end).
+
+-define(Init_state, {?Path_fun, []}).
 
 -define(Paths_sample_4, []).
 
@@ -54,11 +56,11 @@ read_sample_1_test_() ->
 read_sample_2_test_() ->
     {setup, fun setup/0, fun cleanup/1,
      [ {"sample-4",
-        ?_assertEqual({ok, ?Paths_sample_4}, gen_xml:read(?Doc_sample_4, genxml_paths, ?Init_state))},
+        ?_assertMatch({ok, {_, ?Paths_sample_4}}, gen_xml:read(?Doc_sample_4, genxml_paths, ?Init_state))},
        {"sample-5",
-        ?_assertEqual({ok, ?Paths_sample_5}, gen_xml:read(?Doc_sample_5, genxml_paths, ?Init_state))},
+        ?_assertMatch({ok, {_, ?Paths_sample_5}}, gen_xml:read(?Doc_sample_5, genxml_paths, ?Init_state))},
        {"sample-6",
-        ?_assertEqual({ok, ?Paths_sample_6}, gen_xml:read(?Doc_sample_6, genxml_paths, ?Init_state))}
+        ?_assertMatch({ok, {_, ?Paths_sample_6}}, gen_xml:read(?Doc_sample_6, genxml_paths, ?Init_state))}
      ]}.
 
 %%--------------------------------------------------------------------
@@ -70,11 +72,11 @@ print_1_test_() ->
        {"empty file",
         ?_assertMatch({fatal_error, _, _, _, _}, genxml_paths:print(?Doc_empty))},
        {"sample-4",
-        ?_assertEqual({ok, ?Paths_sample_4}, gen_xml:read(?Doc_sample_4, genxml_paths, ?Init_state))},
+        ?_assertEqual({ok, ?Paths_sample_4}, genxml_paths:print(?Doc_sample_4))},
        {"sample-5",
-        ?_assertEqual({ok, ?Paths_sample_5}, gen_xml:read(?Doc_sample_5, genxml_paths, ?Init_state))},
+        ?_assertEqual({ok, ?Paths_sample_5}, genxml_paths:print(?Doc_sample_5))},
        {"sample-6",
-        ?_assertEqual({ok, ?Paths_sample_6}, gen_xml:read(?Doc_sample_6, genxml_paths, ?Init_state))}
+        ?_assertEqual({ok, ?Paths_sample_6}, genxml_paths:print(?Doc_sample_6))}
      ] }.
 
 %%--------------------------------------------------------------------
