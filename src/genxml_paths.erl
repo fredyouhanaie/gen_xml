@@ -28,9 +28,9 @@
 %%--------------------------------------------------------------------
 -spec print(file:filename()) -> gen_xml:read_ret().
 print(File) ->
-    Print = fun (Path) -> io:format("~s~n", [Path]) end,
-    case gen_xml:read(File, ?MODULE, {Print, []}) of
-        {ok, {Print, []}} ->
+    Print = fun (Path, Acc) -> io:format("~s~n", [Path]), Acc end,
+    case gen_xml:read(File, ?MODULE, {Print, [], none}) of
+        {ok, {Print, [], none}} ->
             {ok, []}; %% no need to return the function
         Error ->
             Error
@@ -45,13 +45,14 @@ print(File) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_begin(atom(), list(), {function(), list()}) -> {function(), list()}.
-handle_begin(Tag, _Attr, {F, Tags}) ->
+-spec handle_begin(atom(), list(), {function(), list(), term()})
+                  -> {function(), list(), term()}.
+handle_begin(Tag, _Attr, {F, Tags, Acc}) ->
     Tags_new = [Tag|Tags],
     Tags_str = [ atom_to_list(A) || A <- lists:reverse(Tags_new) ],
     Path = string:join(Tags_str, "/"),
-    F(Path),
-    {F, Tags_new}.
+    Acc_new = F(Path, Acc),
+    {F, Tags_new, Acc_new}.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for end tags.
@@ -60,9 +61,10 @@ handle_begin(Tag, _Attr, {F, Tags}) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_end(atom(), {function(), list()}) -> {function(), list()}.
-handle_end(Tag, {F, [Tag|Tags_rest]}) ->
-    {F, Tags_rest}.
+-spec handle_end(atom(), {function(), list(), term()}) ->
+          {function(), list(), term()}.
+handle_end(Tag, {F, [Tag|Tags_rest], Acc}) ->
+    {F, Tags_rest, Acc}.
 
 %%--------------------------------------------------------------------
 %% @doc The callback function for text elements.
@@ -71,7 +73,8 @@ handle_end(Tag, {F, [Tag|Tags_rest]}) ->
 %%
 %% @end
 %%--------------------------------------------------------------------
--spec handle_text(string(), {function(), list()}) -> {function(), list()}.
+-spec handle_text(string(), {function(), list(), term()})
+                 -> {function(), list(), term()}.
 handle_text(_Text, State) ->
     State.
 

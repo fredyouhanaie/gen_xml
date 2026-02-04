@@ -19,16 +19,12 @@
 
 %%--------------------------------------------------------------------
 
-%% genxml_paths expects an empty map for intial state
--define(Path_fun, fun (_Path) -> ok end).
+%% genxml_paths expects a tuple of, function, empty list and a term
+%% for initial state, the third element is function dependent.
 
--define(Init_state, {?Path_fun, []}).
+-define(Path_fun, fun (_Path, Acc) -> Acc end).
 
--define(Paths_sample_4, []).
-
--define(Paths_sample_5, []).
-
--define(Paths_sample_6, []).
+-define(Init_state, {?Path_fun, [], ok}).
 
 %%--------------------------------------------------------------------
 %% The tests
@@ -56,11 +52,11 @@ read_sample_1_test_() ->
 read_sample_2_test_() ->
     {setup, fun setup/0, fun cleanup/1,
      [ {"sample-4",
-        ?_assertMatch({ok, {_, ?Paths_sample_4}}, gen_xml:read(?Doc_sample_4, genxml_paths, ?Init_state))},
+        ?_assertMatch({ok, {_, [], ok}}, gen_xml:read(?Doc_sample_4, genxml_paths, ?Init_state))},
        {"sample-5",
-        ?_assertMatch({ok, {_, ?Paths_sample_5}}, gen_xml:read(?Doc_sample_5, genxml_paths, ?Init_state))},
+        ?_assertMatch({ok, {_, [], ok}}, gen_xml:read(?Doc_sample_5, genxml_paths, ?Init_state))},
        {"sample-6",
-        ?_assertMatch({ok, {_, ?Paths_sample_6}}, gen_xml:read(?Doc_sample_6, genxml_paths, ?Init_state))}
+        ?_assertMatch({ok, {_, [], ok}}, gen_xml:read(?Doc_sample_6, genxml_paths, ?Init_state))}
      ]}.
 
 %%--------------------------------------------------------------------
@@ -72,11 +68,15 @@ print_1_test_() ->
        {"empty file",
         ?_assertMatch({fatal_error, _, _, _, _}, genxml_paths:print(?Doc_empty))},
        {"sample-4",
-        ?_assertEqual({ok, ?Paths_sample_4}, genxml_paths:print(?Doc_sample_4))},
+        ?_assertEqual({ok, []}, genxml_paths:print(?Doc_sample_4))},
        {"sample-5",
-        ?_assertEqual({ok, ?Paths_sample_5}, genxml_paths:print(?Doc_sample_5))},
+        ?_assertEqual({ok, []}, genxml_paths:print(?Doc_sample_5))},
        {"sample-6",
-        ?_assertEqual({ok, ?Paths_sample_6}, genxml_paths:print(?Doc_sample_6))}
+        ?_assertEqual({ok, []}, genxml_paths:print(?Doc_sample_6))}
+     ] }.
+
+       {"sample-5",
+       {"sample-6",
      ] }.
 
 %%--------------------------------------------------------------------
