@@ -75,8 +75,20 @@ print_1_test_() ->
         ?_assertEqual({ok, []}, genxml_paths:print(?Doc_sample_6))}
      ] }.
 
+%%--------------------------------------------------------------------
+
+collect_1_test_() ->
+    {setup, fun setup/0, fun cleanup/1,
+     [ {"no file",
+       ?_assertMatch({error, _Reason}, genxml_paths:collect(?Doc_nofile))},
+       {"empty file",
+        ?_assertMatch({fatal_error, _, _, _, _}, genxml_paths:collect(?Doc_empty))},
+       {"sample-4",
+        ?_assertMatch({ok, L} when is_list(L), genxml_paths:collect(?Doc_sample_4))},
        {"sample-5",
+        ?_assertMatch({ok, L} when is_list(L), genxml_paths:collect(?Doc_sample_5))},
        {"sample-6",
+        ?_assertMatch({ok, L} when is_list(L), genxml_paths:collect(?Doc_sample_6))}
      ] }.
 
 %%--------------------------------------------------------------------

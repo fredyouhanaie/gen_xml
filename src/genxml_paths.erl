@@ -17,7 +17,7 @@
 
 -behaviour(gen_xml).
 
--export([print/1]).
+-export([print/1, collect/1]).
 
 -export([handle_begin/3, handle_end/2, handle_text/2]).
 
@@ -32,6 +32,21 @@ print(File) ->
     case gen_xml:read(File, ?MODULE, {Print, [], none}) of
         {ok, {Print, [], none}} ->
             {ok, []}; %% no need to return the function
+        Error ->
+            Error
+    end.
+
+%%--------------------------------------------------------------------
+%% @doc Helper function to scan and collect paths of an XML document.
+%%
+%% @end
+%%--------------------------------------------------------------------
+-spec collect(file:filename()) -> gen_xml:read_ret().
+collect(File) ->
+    Collect = fun (Path, Acc) -> [Path|Acc] end,
+    case gen_xml:read(File, ?MODULE, {Collect, [], []}) of
+        {ok, {Collect, [], Paths}} ->
+            {ok, Paths}; %% we just return the list of collected paths
         Error ->
             Error
     end.
