@@ -68,3 +68,15 @@ read_sample_2_test_() ->
      ]}.
 
 %%--------------------------------------------------------------------
+
+start_sample_1_test_() ->
+    {setup, fun setup/0, fun cleanup/1,
+     [ {"sample-4",
+        ?_assertEqual({ok, ?Counts_sample_4}, genxml_counts:start(?Doc_sample_4))},
+       {"sample-5",
+        ?_assertEqual({ok, ?Counts_sample_5}, genxml_counts:start(?Doc_sample_5))},
+       {"sample-6",
+        ?_assertEqual({ok, ?Counts_sample_6}, genxml_counts:start(?Doc_sample_6))}
+     ]}.
+
+%%--------------------------------------------------------------------
