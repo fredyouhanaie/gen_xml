@@ -1,5 +1,7 @@
 # `gen_xml`
 
+[![Erlang CI](https://github.com/fredyouhanaie/gen_xml/actions/workflows/erlang.yml/badge.svg)](https://github.com/fredyouhanaie/gen_xml/actions/workflows/erlang.yml)
+
 A behaviour module for processing an XML document.
 
 This is the generic version of a couple of near-identical modules I
