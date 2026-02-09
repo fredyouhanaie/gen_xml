@@ -3,8 +3,27 @@
 `genxml` is an escript that enables running the known callback modules
 from the command line.
 
-The script supports the `null` module from the main source tree and
-the three example modules in this subtree.
+The script supports all the callback modules from the main source
+tree as well as the `ets` module here.
+
+```shell
+$ ./_build/default/bin/genxml
+error: genxml: subcommand expected
+Usage:
+  genxml <command> [-v] [--verbose] <file>
+
+Subcommands:
+  counts        run the counts callback module
+  ets           run the ets callback module
+  null          run the null callback module
+  paths         run the paths callback module
+
+Arguments:
+  file          file
+
+Optional arguments:
+  -v, --verbose be verbose, can use multiple times for warning to debug
+```
 
 ---
 
@@ -17,7 +36,7 @@ The module can be run on the command line via the `genxml` CLI. The
 output of the CLI is the contents of the ETS table as an Erlang list
 of tuples, as produced with `ets:tab2list/1`.
 
-The callback module can run from CLI as follows:
+The callback module can be run from the CLI as follows:
 
 ```erlang
 $ ./_build/default/bin/genxml ets ../sample-xml-files-sample-4.xml
@@ -57,31 +76,6 @@ The structure of the tuple is as follows:
    dummy `$root` element.
 1. `text`: the contents of an element, `parent` identifies the
    containing element.
-
----
-
-## The `paths` callback module
-
-This module reads an XML document and prints the document structure in
-the form of a set of paths. For example:
-
-```
-$ ./_build/default/bin/genxml paths ../sample-xml-files-sample-4.xml
-
-root
-root/person
-root/person/name
-root/person/age
-root/person/email
-root/person
-root/person/name
-root/person/age
-root/person/email
-root/book
-root/book/title
-root/book/author
-root/book/year
-```
 
 ---
 
