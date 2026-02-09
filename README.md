@@ -66,3 +66,71 @@ The callback module can be run manually against a file `File` with:
     > genxml_counts:start(File).
 
 ---
+
+## The `paths` callback module
+
+This module reads an XML document and generates a list of paths that
+represents the XML document structure.
+
+The module includes two helper functions: `collect/1` and `print/1`,
+the former returns the paths as a list, while the latter prints them
+directly to the terminal.
+
+```shell
+$ rebar3 shell
+
+1> genxml_paths:collect("Examples/sample-xml-files-sample-4.xml").
+{ok,["root/book/year","root/book/author","root/book/title",
+     "root/book","root/person/email","root/person/age",
+     "root/person/name","root/person","root/person/email",
+     "root/person/age","root/person/name","root/person","root"]}
+
+2> genxml_paths:print("Examples/sample-xml-files-sample-4.xml").
+root
+root/person
+root/person/name
+root/person/age
+root/person/email
+root/person
+root/person/name
+root/person/age
+root/person/email
+root/book
+root/book/title
+root/book/author
+root/book/year
+{ok,[]}
+```
+
+---
+
+## The CLI
+
+The command line interface enables running the various handlers from
+the terminal.
+
+The module is `gen_xml_cli.erl`, however, the escript generated with
+rebar3 is renamed to `gen_xml`.
+
+```shell
+$ rebar3 escritize
+$ ./_build/default/bin/gen_xml 
+error: gen_xml: subcommand expected
+Usage:
+  gen_xml {counts|null|paths} [-v] [--verbose] <file>
+
+Subcommands:
+  counts        run the counts callback module
+  null          run the null callback module
+  paths         run the paths callback module
+
+Arguments:
+  file          file
+
+Optional arguments:
+  -v, --verbose be verbose, can use multiple times for warning to debug
+```
+
+The CLI subcommands and options are defined in the include file.
+
+---
