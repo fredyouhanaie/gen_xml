@@ -135,7 +135,7 @@ The module is `gen_xml_cli.erl`, however, the escript generated with
 rebar3 is renamed to `gen_xml`.
 
 ```shell
-$ rebar3 escritize
+$ rebar3 escriptize
 $ ./_build/default/bin/gen_xml
 error: gen_xml: subcommand expected
 Usage:

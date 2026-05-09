@@ -7,5 +7,7 @@
               {modules,[]},
               {licenses,["Apache-2.0"]},
               {maintainers,["Fred Youhanaie"]},
-              {links,[{"Github",
-                       "https://github.com/fredyouhanaie/gen_xml"}]}]}.
+              {links,[{"Codeberg", "https://codeberg.org/fredyouhanaie/gen_xml"},
+                      {"Github", "https://github.com/fredyouhanaie/gen_xml"}
+                     ]}
+             ]}.
