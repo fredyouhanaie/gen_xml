@@ -4,7 +4,7 @@
 from the command line.
 
 The script supports all the callback modules from the main source
-tree as well as the `ets` module here.
+tree as well as the `ets` and `attrs` modules:
 
 ```shell
 $ ./_build/default/bin/genxml
@@ -13,6 +13,7 @@ Usage:
   genxml <command> [-v] [--verbose] <file>
 
 Subcommands:
+  attrs         run the attrs callback module
   counts        run the counts callback module
   ets           run the ets callback module
   null          run the null callback module
@@ -76,6 +77,18 @@ The structure of the tuple is as follows:
    dummy `$root` element.
 1. `text`: the contents of an element, `parent` identifies the
    containing element.
+
+---
+
+## The `attrs` callback module
+
+This is another example module that scans an XML document and collects
+the atributes contained in the element start tags. The module returns
+a list of tuples (pairs) where the first element is the element tag
+and the second is a, possiby empty, list of attribute names.
+
+The local `genxml` script will take a single XML file and produce a
+table of the tag/attribute lines.
 
 ---
 
