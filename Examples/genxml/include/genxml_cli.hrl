@@ -14,5 +14,7 @@
            "ets"     => #{ help => "run the ets callback module",
                            handler => fun genxml_cli:do_ets/1 },
            "paths"   => #{ help => "run the paths callback module",
-                           handler => fun gen_xml_cli:do_paths/1 }
+                           handler => fun gen_xml_cli:do_paths/1 },
+           "attrs"   => #{ help => "run the attrs callback module",
+                           handler => fun genxml_cli:do_attrs/1 }
          } ).

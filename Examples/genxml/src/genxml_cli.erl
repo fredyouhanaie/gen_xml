@@ -15,7 +15,7 @@
 -export([main/1]).
 
 %% subcommand handlers
--export([ do_ets/1 ]).
+-export([ do_ets/1, do_attrs/1 ]).
 
 %%--------------------------------------------------------------------
 
@@ -64,6 +64,17 @@ do_ets(Args) ->
     ok.
 
 %%--------------------------------------------------------------------
+
+do_attrs(Args) ->
+    check_verbosity(Args),
+
+    File = map_get(file, Args),
+    Result = genxml_attrs:read(File),
+    {ok, Tag_attrs} = Result,
+
+    [io:format("~p	~p~n", [T, A]) || {T, A} <- Tag_attrs],
+
+    ok.
 
 check_verbosity(Args) ->
     %% check/set the verbosity
