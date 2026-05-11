@@ -27,6 +27,13 @@ To use the module in a project add `gen_xml` to `rebar3.config`, e.g.
 
 See the `Examples` directory for some example callback modules.
 
+## Recent changes
+
+* The `paths` callback module has been improved and moved to the main
+  library.
+* The test suite has been extended for more complete coverage.
+* A new callback module, `attrs`, has been added to the examples.
+
 ## Build and test
 
 The [rebar3](https://rebar3.org/) tool is used for all the development
@@ -39,9 +46,13 @@ $ rebar3 shell
 ...
 ```
 
----
+## The callback modules
 
-## The `null` callback module
+A number of (hopefilly) useful callback modules have been included
+with the library. These are described below. There are more in the
+`Examples/genxml` directory.
+
+### The `null` callback module
 
 The `genxml_null` module is used for testing and benchmarking.
 
@@ -64,7 +75,7 @@ $ rebar3 shell
 
 ---
 
-## The `counts` callback module
+### The `counts` callback module
 
 The `genxml_counts` module is used for testing and benchmarking.
 
@@ -89,7 +100,7 @@ $ rebar3 shell
 
 ---
 
-## The `paths` callback module
+### The `paths` callback module
 
 This module reads an XML document and generates a list of paths that
 represents the XML document structure.
